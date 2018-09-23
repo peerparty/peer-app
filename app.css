@@ -1,0 +1,191 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+html, body, .content, .cols {
+  height: 100%;
+}
+
+p {
+  font-size: 21px;
+  margin-bottom: 5px;
+}
+
+span {
+  font-size: 21px;
+}
+
+h2, h3 {
+  margin: 21px 0;
+  font-size: 21px;
+}
+
+h1 {
+  text-transform: uppercase;
+  margin-bottom: 34px;
+  text-align: center;
+  font-size: 34px;
+}
+
+select {
+  font-size: 21px;
+  background: #fff;
+  border: 8px solid #000;
+  width: 280px;
+}
+
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: #f00;
+  text-align: center;
+}
+
+.header {
+  background: #000;
+  color: #fff;
+}
+
+.header-blk {
+  float: right;
+  margin-right: 21px;
+}
+
+.header-val {
+  font-weight: bold;
+}
+
+.items {
+/*  background: #ff0; */
+  float: left;
+  width: 50%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.item {
+  margin: 21px;
+  border-bottom: 8px solid #000;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: #000;
+  color: #fff;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.detail {
+  position: relative;
+  float: left;
+/*  background: #f00; */
+  width: 50%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.thread {
+  margin: 21px;
+}
+
+.thread .title {
+  font-size: 34px;
+}
+
+.close {
+  text-align: right;
+  cursor: pointer;
+  padding: 13px 13px 0 0;
+  margin: 0;
+}
+
+nav, .form, .notice h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  font-size: 21px; 
+  text-align: center;
+  margin: 21px;
+  border-bottom: 8px solid #000;
+  cursor: pointer;
+}
+
+.menu li {
+  font-size: 34px;
+}
+
+input[type=text], input[type=password], .button {
+  display: block;
+  margin: 20px auto 20px;
+  border: 8px solid #000;
+  box-sizing:border-box;
+  font-size: 21px;
+  text-align: center;
+  padding: 2px;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #000;
+  color: #fff;
+}
+
+
+.templates {
+  display: none;
+}
+
+.add-part.button, .add-vote.button {
+  width: 280px;
+}
+
+@media all and (max-width:640px) {
+
+html, body, .content, .cols {
+  height: auto;
+  overflow-y: scroll;
+}
+
+textarea, input, input[type=text] {
+  font-size: 21px;
+}
+
+.items {
+  width: 100%;
+}
+
+.detail {
+  width: 100%;
+}
+
+}
+
+
