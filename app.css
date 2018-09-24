@@ -166,8 +166,13 @@ input[type=text], input[type=password], .button {
   display: none;
 }
 
-.add-part.button, .add-vote.button {
-  width: 280px;
+.vote {
+  /* text-align: right; */
+  border-bottom: 8px solid #000;
+}
+
+.arrow {
+  cursor: pointer;
 }
 
 @media all and (max-width:640px) {

@@ -115,24 +115,39 @@ function appShowClose() {
     .addEventListener('click', appShowMenu, false);
 }
 
+function appShowVotes(votes, elm) {
+
+  var voteElm = document.querySelector('.templates .vote').cloneNode(true)
+
+  if(votes) {
+    const up = votes.reduce((c, v) => (v.up ? c + 1 : c), 0)
+    const down = votes.reduce((c, v) => (!v.up ? c + 1 : c), 0)
+    voteElm.querySelector('.up .count').innerHTML = up
+    voteElm.querySelector('.down .count').innerHTML = down
+  }
+
+  voteElm.querySelector('.up .arrow')
+    .addEventListener('click', () => console.log('up vote'), false);
+  voteElm.querySelector('.down .arrow')
+    .addEventListener('click', () => console.log('down vote'), false);
+
+  elm.appendChild(voteElm)
+}
+
+
 function appShowComments(comment, elm) {
-  console.log(comment, elm)
   var comElm = document.querySelector('.templates .comment').cloneNode(true)
   comElm.querySelector('p').innerHTML = comment.comment 
 
+  appShowVotes(comment.votes, comElm)
+
   if(comment.comments) {
-    let nestElms = comElm.querySelector('.nest-comments')
-    comment.comments.forEach(c => appShowComments(c, nestElms))
+    var commentsElm = document.querySelector('.templates .comments').cloneNode(true)
+    comment.comments.forEach(c => appShowComments(c, commentsElm))
+    comElm.appendChild(commentsElm)
   }
 
   elm.appendChild(comElm)
-}
-
-function appShowVotes(votes, elm) {
-  const up = votes.reduce((v, c) => { v.up ? c + 1 : c }, 0)
-  const down = votes.reduce((v, c) => { !v.up ? c + 1 : c }, 0)
-  elm.querySelector('.up').innerHTML = up
-  elm.querySelector('.down').innerHTML = down
 }
 
 function appShowThread(post) {
@@ -144,10 +159,7 @@ function appShowThread(post) {
   thread.querySelector('.title').innerHTML = post.title
   thread.querySelector('.description').innerHTML = post.description
 
-  var voteElm = document.querySelector('.templates .vote').cloneNode(true)
-  
-  if(post.votes) appShowVotes(post.votes, voteElm)
-  thread.appendChild(voteElm)
+  appShowVotes(post.votes, thread)
 
   var comments = document.querySelector('.templates .comments').cloneNode(true)
   thread.appendChild(comments)
