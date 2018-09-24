@@ -30,7 +30,6 @@ h2, h3 {
 h1 {
   text-transform: uppercase;
   margin-bottom: 34px;
-  text-align: center;
   font-size: 34px;
 }
 
@@ -39,6 +38,10 @@ select {
   background: #fff;
   border: 8px solid #000;
   width: 280px;
+}
+
+.form h1 {
+  text-align: center;
 }
 
 .center {
@@ -129,14 +132,14 @@ ul {
 
 li {
   font-size: 21px; 
-  text-align: center;
   margin: 21px;
-  border-bottom: 8px solid #000;
   cursor: pointer;
 }
 
 .menu li {
   font-size: 34px;
+  text-align: center;
+  border-bottom: 8px solid #000;
 }
 
 input[type=text], input[type=password], .button {
