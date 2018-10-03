@@ -1,8 +1,8 @@
-var url = location.protocol + "//" + location.host + "/api";
+let url = location.protocol + "//" + location.host + "/api";
 
 function doRequest(opts) {
   return new Promise(function (resolve, reject) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open(!opts.method ? 'GET' : opts.method, url + opts.endpoint);
     xhr.onload = function () {
       if(this.status >= 200 && this.status < 300) {
@@ -27,7 +27,7 @@ function doRequest(opts) {
         xhr.setRequestHeader(key, opts.headers[key]);
       });
     }
-    var params = opts.params;
+    let params = opts.params;
     if(params && typeof params === 'object') {
       params = Object.keys(params).map(function (key) {
         return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
@@ -37,7 +37,11 @@ function doRequest(opts) {
   });
 };
 
-var user = '_';
+const postType = 0
+const commentType = 1
+
+let user = '_'
+let postId = -1
 
 /**
  * Helpers - JBG
@@ -48,7 +52,7 @@ function dec(n) {
 }
 
 function isNumber(n) {
-  var reg = /^\d+$/;
+  let reg = /^\d+$/;
   return reg.test(n);
 }
 
@@ -56,14 +60,11 @@ function isNumber(n) {
  * APIish stuff - JBG
  */
 
-function appGetPost(e) {
-  var t = e.target.className != 'item' ? e.target.parentNode : e.target
-  var postId = t.getAttribute('data-id')
+function appGetPost(postId) {
   doRequest({ 'endpoint': '/posts/' + postId })
     .then(post => appShowThread(JSON.parse(post)))
     .catch(console.error)
 }
-
 
 function appGetPosts() {
   doRequest({ 'endpoint': '/posts' })
@@ -72,6 +73,27 @@ function appGetPosts() {
   });
 }
 
+function appPostVote(postId, up) {
+  doRequest({
+    'endpoint': '/posts/' + postId + '/votes',
+    'method': 'POST',
+    'params': {'up': up}
+  })
+  .then(() => {
+    appGetPost(postId)
+  }).catch(console.error)
+}
+
+function appCommentVote(commentId, up) {
+  doRequest({
+    'endpoint': '/comments/' + commentId + '/votes',
+    'method': 'POST',
+    'params': {'up': up}
+  })
+  .then(() => {
+    appGetPost(postId)
+  }).catch(console.error)
+}
 
 async function appLogin(params) {
   doRequest({
@@ -102,7 +124,7 @@ function appLogout() {
 function appShowNotice(notice) {
   document.querySelector('.detail').innerHTML = '';
   appShowClose();
-  var note = document.querySelector('.templates .notice').cloneNode(true);
+  let note = document.querySelector('.templates .notice').cloneNode(true);
   note.querySelector('h1').innerHTML = notice;
   document.querySelector('.detail').appendChild(note);
 }
@@ -115,9 +137,14 @@ function appShowClose() {
     .addEventListener('click', appShowMenu, false);
 }
 
-function appShowVotes(votes, elm) {
+function appCommentBox(objType, id, elm) {
+  let commentboxElm = document.querySelector('.templates .commentbox').cloneNode(true)
+  elm.appendChild(commentboxElm) 
+}
 
-  var voteElm = document.querySelector('.templates .vote').cloneNode(true)
+function appShowVotes(objType, id, votes, elm) {
+
+  let voteElm = document.querySelector('.templates .vote').cloneNode(true)
 
   if(votes) {
     const up = votes.reduce((c, v) => (v.up ? c + 1 : c), 0)
@@ -127,25 +154,32 @@ function appShowVotes(votes, elm) {
   }
 
   voteElm.querySelector('.up .arrow')
-    .addEventListener('click', () => console.log('up vote'), false);
+    .addEventListener('click', () => {
+      if(objType === postType) appPostVote(id, true)
+      else appCommentVote(id, true)
+  }, false);
   voteElm.querySelector('.down .arrow')
-    .addEventListener('click', () => console.log('down vote'), false);
+    .addEventListener('click', () => {
+      if(objType === postType) appPostVote(id, false)
+      else appCommentVote(id, false) 
+  }, false)
 
   elm.appendChild(voteElm)
 }
 
-
 function appShowComments(comment, elm) {
-  var comElm = document.querySelector('.templates .comment').cloneNode(true)
+  let comElm = document.querySelector('.templates .comment').cloneNode(true)
   comElm.querySelector('p').innerHTML = comment.comment 
 
-  appShowVotes(comment.votes, comElm)
+  appCommentBox(commentType, comment.id, comElm)
+  appShowVotes(commentType, comment.id, comment.votes, comElm)
 
   if(comment.comments) {
-    var commentsElm = document.querySelector('.templates .comments').cloneNode(true)
+    let commentsElm = document.querySelector('.templates .comments').cloneNode(true)
     comment.comments.forEach(c => appShowComments(c, commentsElm))
     comElm.appendChild(commentsElm)
   }
+
 
   elm.appendChild(comElm)
 }
@@ -154,20 +188,22 @@ function appShowThread(post) {
   document.querySelector('.detail').innerHTML = ''
   appShowClose()
 
-  var thread = document.querySelector('.templates .thread').cloneNode(true)
+  let thread = document.querySelector('.templates .thread').cloneNode(true)
   thread.setAttribute('data-id', post.id)
   thread.querySelector('.title').innerHTML = post.title
   thread.querySelector('.description').innerHTML = post.description
 
-  appShowVotes(post.votes, thread)
+  appCommentBox(postType, post.id, thread)
+  appShowVotes(postType, post.id, post.votes, thread)
 
-  var comments = document.querySelector('.templates .comments').cloneNode(true)
+  let comments = document.querySelector('.templates .comments').cloneNode(true)
   thread.appendChild(comments)
 
   if(post.comments) {
-    var comments = thread.querySelector('.comments')
+    let comments = thread.querySelector('.comments')
     post.comments.forEach(comment => appShowComments(comment, comments))
   }
+
 
   document.querySelector('.detail').appendChild(thread)
 
@@ -177,18 +213,22 @@ function appShowPosts(posts) {
   //acts.sort((a, b) => { return a[5] - b[5] })
 
   document.querySelector('.items').innerHTML = ''
-  for(var i = 0; i < posts.length; i++) {
-    var item = document.querySelector('.templates .item').cloneNode(true)
-    var post = posts[i]
+  for(let i = 0; i < posts.length; i++) {
+    let item = document.querySelector('.templates .item').cloneNode(true)
+    let post = posts[i]
     item.setAttribute('data-id', post.id)
     item.querySelector('.title').innerHTML = post.title 
     item.querySelector('.description').innerHTML = post.description 
     document.querySelector('.items').appendChild(item)
   }
 
-  var items = document.querySelectorAll('.items .item')
-  for(var i = 0; i < items.length; i++) {
-    items[i].addEventListener('click', appGetPost, true)
+  let items = document.querySelectorAll('.items .item')
+  for(let i = 0; i < items.length; i++) {
+    items[i].addEventListener('click', (e) => {
+      const t = e.target.className != 'item' ? e.target.parentNode : e.target
+      postId = t.getAttribute('data-id')
+      appGetPost(postId)
+    }, true)
   }
 }
 

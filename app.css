@@ -18,7 +18,7 @@ p {
   margin-bottom: 5px;
 }
 
-span {
+span, textarea {
   font-size: 21px;
 }
 
@@ -38,6 +38,10 @@ select {
   background: #fff;
   border: 8px solid #000;
   width: 280px;
+}
+
+textarea {
+  width: 100%;
 }
 
 .form h1 {
@@ -152,6 +156,24 @@ input[type=text], input[type=password], .button {
   padding: 2px;
 }
 
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.cf:before,
+.cf:after {
+  content: " ";
+  display: table;
+}
+
+.cf:after {
+  clear: both;
+}
+
 .button {
   cursor: pointer;
 }
@@ -173,6 +195,11 @@ input[type=text], input[type=password], .button {
 
 .arrow {
   cursor: pointer;
+}
+
+.submit {
+  margin-top: 21px;
+  margin-bottom: 21px;
 }
 
 @media all and (max-width:640px) {
