@@ -95,6 +95,29 @@ function appCommentVote(commentId, up) {
   }).catch(console.error)
 }
 
+function appPostComment(postId, val) {
+  doRequest({
+    'endpoint': '/posts/' + postId + '/comments',
+    'method': 'POST',
+    'params': {'comment': val}
+  })
+  .then(() => {
+    appGetPost(postId)
+  }).catch(console.error)
+}
+
+function appCommentComment(commentId, val) {
+  doRequest({
+    'endpoint': '/comments/' + commentId + '/comments',
+    'method': 'POST',
+    'params': {'comment': val}
+  })
+  .then(() => {
+    appGetPost(postId)
+  }).catch(console.error)
+}
+
+
 async function appLogin(params) {
   doRequest({
     'endpoint': '/login',
@@ -139,6 +162,10 @@ function appShowClose() {
 
 function appCommentBox(objType, id, elm) {
   let commentboxElm = document.querySelector('.templates .commentbox').cloneNode(true)
+  commentboxElm.querySelector('.arrow.right').addEventListener('click', e => {
+    const val = commentboxElm.querySelector('textarea').value
+    objType === postType ? appPostComment(id, val) : appCommentComment(id, val)
+  })
   elm.appendChild(commentboxElm) 
 }
 
