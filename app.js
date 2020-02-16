@@ -1,4 +1,6 @@
-let url = location.protocol + "//" + location.host + "/api";
+//let url = location.protocol + "//" + location.host + "/api";
+//let url =  "https://api.peerparty.org";
+let url =  "http://localhost/api";
 
 function doRequest(opts) {
   return new Promise(function (resolve, reject) {
@@ -63,14 +65,14 @@ function isNumber(n) {
 function appGetPost(postId) {
   doRequest({ 'endpoint': '/posts/' + postId })
     .then(post => appShowThread(JSON.parse(post)))
-    .catch(console.error)
+    .catch(e => appShowError(e.status, e.statusText))
 }
 
 function appGetPosts() {
   doRequest({ 'endpoint': '/posts' })
   .then((posts) => {
     appShowPosts(JSON.parse(posts));
-  });
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appPostVote(postId, up) {
@@ -78,10 +80,9 @@ function appPostVote(postId, up) {
     'endpoint': '/posts/' + postId + '/votes',
     'method': 'POST',
     'params': {'up': up}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appCommentVote(commentId, up) {
@@ -89,10 +90,9 @@ function appCommentVote(commentId, up) {
     'endpoint': '/comments/' + commentId + '/votes',
     'method': 'POST',
     'params': {'up': up}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appPostComment(postId, val) {
@@ -100,10 +100,9 @@ function appPostComment(postId, val) {
     'endpoint': '/posts/' + postId + '/comments',
     'method': 'POST',
     'params': {'comment': val}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appCommentComment(commentId, val) {
@@ -111,10 +110,9 @@ function appCommentComment(commentId, val) {
     'endpoint': '/comments/' + commentId + '/comments',
     'method': 'POST',
     'params': {'comment': val}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 
@@ -124,20 +122,20 @@ async function appLogin(params) {
     'method': 'POST',
     'params': params })
   .then((data) => {
-    user = JSON.parse(data).user;
-    appShow();
+    user = JSON.parse(data).user
+    appShow()
   })
   .catch((err, res) => {
     console.log(err, res)
-    document.querySelector('.error').innerHTML = "U FAILED.";
-  });
+    document.querySelector('.error').innerHTML = "U FAILED."
+  })
 }
 
 function appLogout() {
   doRequest({ 'endpoint': '/logout' })
   .then(() => {
-    appShowLogin();
-  });
+    appShowLogin()
+  })
 }
 
 /**
@@ -210,6 +208,20 @@ function appShowComments(comment, elm) {
 
   elm.appendChild(comElm)
 }
+
+/*
+function appGatherConsensus(a, obj) {
+  const up = obj.votes.reduce((c, v) => (v.up ? c + 1 : c), 0)
+  const down = obj.votes.reduce((c, v) => (!v.up ? c + 1 : c), 0)
+  if(up === down) a = [...a, obj]
+  a = obj.comments.reduce((a, c) => appGatherConsensus(a, c), a)
+  return a
+}
+
+function appShowConsensus(post) {
+  appGatherConsensus(post)
+}
+*/
 
 function appShowThread(post) {
   document.querySelector('.detail').innerHTML = ''
@@ -301,8 +313,16 @@ function appShowHeader() {
   document.querySelector('.header-user .header-val').innerHTML = user;
 }
 
+function appShowError(title, desc) {
+  document.querySelector('.content .cols').classList.add('hidden')
+  const err = document.querySelector('.error')
+  err.classList.remove('hidden')
+  err.querySelector('h2').innerHTML = title
+  err.querySelector('p').innerHTML = desc 
+}
+
 document.addEventListener('DOMContentLoaded', event => { 
-  doRequest({ 'endpoint': '/' })
+  doRequest({ 'endpoint': '/me' })
   .then((data) => {
     user = JSON.parse(data).user;
     appShow();

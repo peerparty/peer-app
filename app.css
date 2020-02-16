@@ -28,7 +28,6 @@ h2, h3 {
 }
 
 h1 {
-  text-transform: uppercase;
   margin-bottom: 34px;
   font-size: 34px;
 }
@@ -42,6 +41,10 @@ select {
 
 textarea {
   width: 100%;
+}
+
+.content div.error {
+  margin-top: 34px;
 }
 
 .form h1 {
