@@ -194,6 +194,7 @@ function appShowVotes(objType, id, votes, elm) {
 
 function appShowComments(comment, elm) {
   let comElm = document.querySelector('.templates .comment').cloneNode(true)
+  comElm.setAttribute('id', comment[1])
   comElm.querySelector('p').innerHTML = comment.comment 
 
   appCommentBox(commentType, comment.id, comElm)
@@ -205,25 +206,24 @@ function appShowComments(comment, elm) {
     comElm.appendChild(commentsElm)
   }
 
-
   elm.appendChild(comElm)
 }
 
-/*
-function appGatherConsensus(a, obj) {
-  const up = obj.votes.reduce((c, v) => (v.up ? c + 1 : c), 0)
-  const down = obj.votes.reduce((c, v) => (!v.up ? c + 1 : c), 0)
-  if(up === down) a = [...a, obj]
-  a = obj.comments.reduce((a, c) => appGatherConsensus(a, c), a)
-  return a
+function appShowMoment(moment, elm) {
+  let momentElm = document.querySelector('.templates .moment').cloneNode(true)
+  momentElm.querySelector('li a').innerHTML = moment[2]
+  momentElm.querySelector('li a').setAttribute('href', `#${moment[1]}`)
+  elm.appendChild(momentElm)
 }
 
-function appShowConsensus(post) {
-  appGatherConsensus(post)
+function appShowConsensus(consensus, elm) {
+  let consensusElm = document.querySelector('.templates .consensus').cloneNode(true)
+  consensus.forEach(m => appShowMoment(m, consensusElm.querySelector('ul')))
+  elm.appendChild(consensusElm)
 }
-*/
 
 function appShowThread(post) {
+
   document.querySelector('.detail').innerHTML = ''
   appShowClose()
 
@@ -231,6 +231,8 @@ function appShowThread(post) {
   thread.setAttribute('data-id', post.id)
   thread.querySelector('.title').innerHTML = post.title
   thread.querySelector('.description').innerHTML = post.description
+
+  if(post.consensus.length) appShowConsensus(post.consensus, thread)
 
   appCommentBox(postType, post.id, thread)
   appShowVotes(postType, post.id, post.votes, thread)
