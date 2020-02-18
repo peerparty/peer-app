@@ -197,7 +197,9 @@ function appShowComments(comment, elm) {
   comElm.setAttribute('id', comment[1])
   comElm.querySelector('p').innerHTML = comment.comment 
 
-  appCommentBox(commentType, comment.id, comElm)
+  console.log("COMMENT", comment)
+
+  if(!comment.consensus) appCommentBox(commentType, comment.id, comElm)
   appShowVotes(commentType, comment.id, comment.votes, comElm)
 
   if(comment.comments) {

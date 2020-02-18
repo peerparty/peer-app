@@ -137,6 +137,10 @@ ul {
   list-style-type: none;
 }
 
+.consensus ul {
+  list-style-type: circle;
+}
+
 li {
   font-size: 21px; 
   margin: 21px;
