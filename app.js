@@ -1,42 +1,42 @@
 //let url = location.protocol + "//" + location.host + "/api";
-let url = "https://api.peerparty.org";
+let url = "https://api.peerparty.org"
 
 function doRequest(opts) {
   return new Promise(function (resolve, reject) {
-    let xhr = new XMLHttpRequest();
-    xhr.open(!opts.method ? 'GET' : opts.method, url + opts.endpoint);
+    let xhr = new XMLHttpRequest()
+    xhr.open(!opts.method ? 'GET' : opts.method, url + opts.endpoint)
     xhr.onload = function () {
       if(this.status >= 200 && this.status < 300) {
-        resolve(xhr.response);
+        resolve(xhr.response)
       } else {
         reject({
           status: this.status,
           statusText: xhr.statusText
-        });
+        })
       }
-    };
+    }
     xhr.onerror = function () {
       reject({
         status: this.status,
         statusText: xhr.statusText
-      });
-    };
-    xhr.withCredentials = true;
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      })
+    }
+    xhr.withCredentials = true
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
     if(opts.headers) {
       Object.keys(opts.headers).forEach(function (key) {
-        xhr.setRequestHeader(key, opts.headers[key]);
-      });
+        xhr.setRequestHeader(key, opts.headers[key])
+      })
     }
-    let params = opts.params;
+    let params = opts.params
     if(params && typeof params === 'object') {
       params = Object.keys(params).map(function (key) {
-        return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
-      }).join('&');
+        return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+      }).join('&')
     }
-    xhr.send(params);
-  });
-};
+    xhr.send(params)
+  })
+}
 
 const postType = 0
 const commentType = 1
@@ -49,12 +49,12 @@ let postId = -1
  */
 
 function dec(n) {
-  return parseFloat(n / 100).toFixed(2);
+  return parseFloat(n / 100).toFixed(2)
 }
 
 function isNumber(n) {
-  let reg = /^\d+$/;
-  return reg.test(n);
+  let reg = /^\d+$/
+  return reg.test(n)
 }
 
 /**
@@ -70,8 +70,8 @@ function appGetPost(postId) {
 function appGetPosts() {
   doRequest({ 'endpoint': '/posts' })
   .then((posts) => {
-    appShowPosts(JSON.parse(posts));
-  });
+    appShowPosts(JSON.parse(posts))
+  })
 }
 
 function appPostVote(postId, up) {
@@ -125,13 +125,13 @@ async function appLogin(params) {
     'method': 'POST',
     'params': params })
   .then((data) => {
-    user = JSON.parse(data).user;
-    appShow();
+    user = JSON.parse(data).user
+    appShow()
   })
   .catch((err, res) => {
     console.log(err, res)
-    document.querySelector('.error').innerHTML = "U FAILED.";
-  });
+    document.querySelector('.error').innerHTML = "U FAILED."
+  })
 }
 
 function appLogout() {
@@ -139,8 +139,8 @@ function appLogout() {
     'endpoint': '/logout',
     'method': 'POST'
   }).then(() => {
-    appShowLogin();
-  });
+    appShowLogin()
+  })
 }
 
 /**
@@ -148,19 +148,19 @@ function appLogout() {
  */
 
 function appShowNotice(notice) {
-  document.querySelector('.detail').innerHTML = '';
-  appShowClose();
-  let note = document.querySelector('.templates .notice').cloneNode(true);
-  note.querySelector('h1').innerHTML = notice;
-  document.querySelector('.detail').appendChild(note);
+  document.querySelector('.detail').innerHTML = ''
+  appShowClose()
+  let note = document.querySelector('.templates .notice').cloneNode(true)
+  note.querySelector('h1').innerHTML = notice
+  document.querySelector('.detail').appendChild(note)
 }
 
 function appShowClose() {
   document.querySelector('.detail').appendChild(
     document.querySelector('.templates .close').cloneNode(true)
-  );
+  )
   document.querySelector('.detail .close')
-    .addEventListener('click', appShowMenu, false);
+    .addEventListener('click', appShowMenu, false)
 }
 
 function appCommentBox(objType, id, elm) {
