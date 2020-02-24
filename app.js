@@ -131,7 +131,7 @@ async function appLogin(params) {
 }
 
 function appLogout() {
-  doRequest({ 'endpoint': '/logout' })
+  doRequest({ 'endpoint': '/logout', 'method': 'POST' })
   .then(() => {
     appShowLogin()
   })
