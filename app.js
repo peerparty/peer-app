@@ -1,4 +1,5 @@
-let url = location.protocol + "//" + location.host + "/api";
+//let url = location.protocol + "//" + location.host + "/api";
+let url = "https://api.peerparty.org";
 
 function doRequest(opts) {
   return new Promise(function (resolve, reject) {
@@ -134,8 +135,10 @@ async function appLogin(params) {
 }
 
 function appLogout() {
-  doRequest({ 'endpoint': '/logout' })
-  .then(() => {
+  doRequest({
+    'endpoint': '/logout',
+    'method': 'POST'
+  }).then(() => {
     appShowLogin();
   });
 }
@@ -260,55 +263,57 @@ function appShowPosts(posts) {
 }
 
 function appShowMenu() {
-  document.querySelector('.detail').innerHTML = '';
+  document.querySelector('.detail').innerHTML = ''
   document.querySelector('.detail').appendChild(
     document.querySelector('.templates .menu').cloneNode(true)
-  );
+  )
   /*
   document.querySelector('.detail .menu .menu-activity')
-    .addEventListener('click', appShowAddActivity, false);
+    .addEventListener('click', appShowAddActivity, false)
   document.querySelector('.detail .menu .menu-member')
-    .addEventListener('click', appShowAddMember, false);
+    .addEventListener('click', appShowAddMember, false)
   */
   document.querySelector('.detail .menu .menu-logout')
-    .addEventListener('click', appLogout, false);
+    .addEventListener('click', appLogout, false)
 }
 
 function appShowLogin() {
-  document.querySelector('.header').classList.add('hidden');
-  document.querySelector('.items').innerHTML = '';
-  document.querySelector('.detail').innerHTML = '';
+  document.querySelector('.header').classList.add('hidden')
+  document.querySelector('.items').innerHTML = ''
+  document.querySelector('.detail').innerHTML = ''
   document.querySelector('.detail').appendChild(
     document.querySelector('.templates .login').cloneNode(true)
-  );
-  document.querySelector('.detail .login .button')
-    .addEventListener('click', () => {
+  )
+  document.querySelector('.login.form')
+    .addEventListener('submit', e => {
+      e.preventDefault()
+      e.stopPropagation()
       appLogin({
-        "name": document.querySelector('.detail input[name=name]').value,
+        "name": document.querySelector('.detail input[name=username]').value,
         "pwd": document.querySelector('.detail input[name=password]').value
-      });
-    }, false);
+      })
+    }, false)
 }
 
 function appShow() {
-  appShowHeader();
-  appGetPosts();
-  appShowMenu();
+  appShowHeader()
+  appGetPosts()
+  appShowMenu()
 }
 
 function appShowHeader() {
-  document.querySelector('.header').classList.remove('hidden');
-  document.querySelector('.header-user .header-val').innerHTML = user;
+  document.querySelector('.header').classList.remove('hidden')
+  document.querySelector('.header-user .header-val').innerHTML = user
 }
 
 document.addEventListener('DOMContentLoaded', event => { 
-  doRequest({ 'endpoint': '/' })
+  doRequest({ 'endpoint': '/me' })
   .then((data) => {
-    user = JSON.parse(data).user;
-    appShow();
+    user = JSON.parse(data).user
+    appShow()
   })
   .catch(() => {
-    appShowLogin();
-  });
-});
+    appShowLogin()
+  })
+})
 

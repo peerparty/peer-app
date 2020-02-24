@@ -156,6 +156,10 @@ input[type=text], input[type=password], .button {
   padding: 2px;
 }
 
+input[type=submit] {
+  width: 100%;
+}
+
 .right {
   float: right;
 }
