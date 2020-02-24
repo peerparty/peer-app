@@ -64,14 +64,14 @@ function isNumber(n) {
 function appGetPost(postId) {
   doRequest({ 'endpoint': '/posts/' + postId })
     .then(post => appShowThread(JSON.parse(post)))
-    .catch(console.error)
+    .catch(e => appShowError(e.status, e.statusText))
 }
 
 function appGetPosts() {
   doRequest({ 'endpoint': '/posts' })
   .then((posts) => {
-    appShowPosts(JSON.parse(posts))
-  })
+    appShowPosts(JSON.parse(posts));
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appPostVote(postId, up) {
@@ -79,10 +79,9 @@ function appPostVote(postId, up) {
     'endpoint': '/posts/' + postId + '/votes',
     'method': 'POST',
     'params': {'up': up}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appCommentVote(commentId, up) {
@@ -90,10 +89,9 @@ function appCommentVote(commentId, up) {
     'endpoint': '/comments/' + commentId + '/votes',
     'method': 'POST',
     'params': {'up': up}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appPostComment(postId, val) {
@@ -101,10 +99,9 @@ function appPostComment(postId, val) {
     'endpoint': '/posts/' + postId + '/comments',
     'method': 'POST',
     'params': {'comment': val}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appCommentComment(commentId, val) {
@@ -112,10 +109,9 @@ function appCommentComment(commentId, val) {
     'endpoint': '/comments/' + commentId + '/comments',
     'method': 'POST',
     'params': {'comment': val}
-  })
-  .then(() => {
+  }).then(() => {
     appGetPost(postId)
-  }).catch(console.error)
+  }).catch(e => appShowError(e.status, e.statusText))
 }
 
 
@@ -135,10 +131,8 @@ async function appLogin(params) {
 }
 
 function appLogout() {
-  doRequest({
-    'endpoint': '/logout',
-    'method': 'POST'
-  }).then(() => {
+  doRequest({ 'endpoint': '/logout' })
+  .then(() => {
     appShowLogin()
   })
 }
@@ -199,9 +193,12 @@ function appShowVotes(objType, id, votes, elm) {
 
 function appShowComments(comment, elm) {
   let comElm = document.querySelector('.templates .comment').cloneNode(true)
+  comElm.setAttribute('id', comment[1])
   comElm.querySelector('p').innerHTML = comment.comment 
 
-  appCommentBox(commentType, comment.id, comElm)
+  console.log("COMMENT", comment)
+
+  if(!comment.consensus) appCommentBox(commentType, comment.id, comElm)
   appShowVotes(commentType, comment.id, comment.votes, comElm)
 
   if(comment.comments) {
@@ -210,11 +207,24 @@ function appShowComments(comment, elm) {
     comElm.appendChild(commentsElm)
   }
 
-
   elm.appendChild(comElm)
 }
 
+function appShowMoment(moment, elm) {
+  let momentElm = document.querySelector('.templates .moment').cloneNode(true)
+  momentElm.querySelector('li a').innerHTML = moment[2]
+  momentElm.querySelector('li a').setAttribute('href', `#${moment[1]}`)
+  elm.appendChild(momentElm)
+}
+
+function appShowConsensus(consensus, elm) {
+  let consensusElm = document.querySelector('.templates .consensus').cloneNode(true)
+  consensus.forEach(m => appShowMoment(m, consensusElm.querySelector('ul')))
+  elm.appendChild(consensusElm)
+}
+
 function appShowThread(post) {
+
   document.querySelector('.detail').innerHTML = ''
   appShowClose()
 
@@ -222,6 +232,8 @@ function appShowThread(post) {
   thread.setAttribute('data-id', post.id)
   thread.querySelector('.title').innerHTML = post.title
   thread.querySelector('.description').innerHTML = post.description
+
+  if(post.consensus.length) appShowConsensus(post.consensus, thread)
 
   appCommentBox(postType, post.id, thread)
   appShowVotes(postType, post.id, post.votes, thread)
@@ -304,6 +316,14 @@ function appShow() {
 function appShowHeader() {
   document.querySelector('.header').classList.remove('hidden')
   document.querySelector('.header-user .header-val').innerHTML = user
+}
+
+function appShowError(title, desc) {
+  document.querySelector('.content .cols').classList.add('hidden')
+  const err = document.querySelector('.error')
+  err.classList.remove('hidden')
+  err.querySelector('h2').innerHTML = title
+  err.querySelector('p').innerHTML = desc 
 }
 
 document.addEventListener('DOMContentLoaded', event => { 
