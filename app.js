@@ -196,9 +196,8 @@ function appShowComments(comment, elm) {
   comElm.setAttribute('id', comment[1])
   comElm.querySelector('p').innerHTML = comment.comment 
 
-  console.log("COMMENT", comment)
-
-  if(!comment.consensus) appCommentBox(commentType, comment.id, comElm)
+  if(!comment.consensus && comment.votes && comment.votes.length > 1)
+    appCommentBox(commentType, comment.id, comElm)
   appShowVotes(commentType, comment.id, comment.votes, comElm)
 
   if(comment.comments) {
@@ -233,9 +232,10 @@ function appShowThread(post) {
   thread.querySelector('.title').innerHTML = post.title
   thread.querySelector('.description').innerHTML = post.description
 
-  if(post.consensus.length) appShowConsensus(post.consensus, thread)
+  if(post.moments.length) appShowConsensus(post.consensus, thread)
 
-  appCommentBox(postType, post.id, thread)
+  if(!post.consensus && post.votes && post.votes.length > 1)
+    appCommentBox(postType, post.id, thread)
   appShowVotes(postType, post.id, post.votes, thread)
 
   let comments = document.querySelector('.templates .comments').cloneNode(true)
