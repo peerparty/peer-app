@@ -64,7 +64,10 @@ function isNumber(n) {
 function appGetPost(postId) {
   doRequest({ 'endpoint': '/posts/' + postId })
     .then(post => appShowThread(JSON.parse(post)))
-    .catch(e => appShowError(e.status, e.statusText))
+    .catch(e => {
+      if(e.status) appShowError(e.status, e.statusText)
+      else appShowError("Application Error", e.message)
+    })
 }
 
 function appGetPosts() {
@@ -232,7 +235,7 @@ function appShowThread(post) {
   thread.querySelector('.title').innerHTML = post.title
   thread.querySelector('.description').innerHTML = post.description
 
-  if(post.moments.length) appShowConsensus(post.consensus, thread)
+  if(post.moments.length) appShowConsensus(post.moments, thread)
 
   if(!post.consensus && post.votes && post.votes.length > 1)
     appCommentBox(postType, post.id, thread)
