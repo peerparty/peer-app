@@ -85,6 +85,7 @@ function appPostVote(postId, up) {
     'params': {'up': up}
   }).then(() => {
     appGetPost(postId)
+    appUpdateHeader()
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
@@ -96,29 +97,33 @@ function appCommentVote(commentId, up) {
     'params': {'up': up}
   }).then(() => {
     appGetPost(postId)
+    appUpdateHeader()
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appPostComment(postId, val) {
+  appShowLoading()
   doRequest({
     'endpoint': '/posts/' + postId + '/comments',
     'method': 'POST',
     'params': {'comment': val}
   }).then(() => {
     appGetPost(postId)
+    appUpdateHeader()
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
 function appCommentComment(commentId, val) {
+  appShowLoading()
   doRequest({
     'endpoint': '/comments/' + commentId + '/comments',
     'method': 'POST',
     'params': {'comment': val}
   }).then(() => {
     appGetPost(postId)
+    appUpdateHeader()
   }).catch(e => appShowError(e.status, e.statusText))
 }
-
 
 async function appLogin(params) {
   doRequest({
@@ -126,7 +131,9 @@ async function appLogin(params) {
     'method': 'POST',
     'params': params })
   .then((data) => {
-    user = JSON.parse(data).user
+    const obj = JSON.parse(data)
+    user = obj.user
+    balance = obj.balance
     appShow()
   })
   .catch((err, res) => {
@@ -326,6 +333,17 @@ function appShow() {
 function appShowHeader() {
   document.querySelector('.header').classList.remove('hidden')
   document.querySelector('.header-user .header-val').innerHTML = user
+  document.querySelector('.header-bal .header-val').innerHTML = balance 
+}
+
+function appUpdateHeader() {
+  doRequest({ 'endpoint': '/me' }).then((data) => {
+    const obj = JSON.parse(data)
+    balance = obj.balance
+    appShowHeader()
+  }).catch(() => {
+    appShowLogin()
+  })
 }
 
 function appShowError(title, desc) {
@@ -337,12 +355,12 @@ function appShowError(title, desc) {
 }
 
 document.addEventListener('DOMContentLoaded', event => { 
-  doRequest({ 'endpoint': '/me' })
-  .then((data) => {
-    user = JSON.parse(data).user
+  doRequest({ 'endpoint': '/me' }).then((data) => {
+    const obj = JSON.parse(data)
+    user = obj.user
+    balance = obj.balance
     appShow()
-  })
-  .catch(() => {
+  }).catch(() => {
     appShowLogin()
   })
 })
