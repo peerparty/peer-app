@@ -78,6 +78,7 @@ function appGetPosts() {
 }
 
 function appPostVote(postId, up) {
+  appShowLoading()
   doRequest({
     'endpoint': '/posts/' + postId + '/votes',
     'method': 'POST',
@@ -88,6 +89,7 @@ function appPostVote(postId, up) {
 }
 
 function appCommentVote(commentId, up) {
+  appShowLoading()
   doRequest({
     'endpoint': '/comments/' + commentId + '/votes',
     'method': 'POST',
@@ -225,6 +227,12 @@ function appShowConsensus(consensus, elm) {
   elm.appendChild(consensusElm)
 }
 
+function appShowLoading() {
+  document.querySelector('.detail').innerHTML = ''
+  let loading = document.querySelector('.templates .loading').cloneNode(true)
+  document.querySelector('.detail').appendChild(loading)
+}
+
 function appShowThread(post) {
 
   document.querySelector('.detail').innerHTML = ''
@@ -248,7 +256,6 @@ function appShowThread(post) {
     let comments = thread.querySelector('.comments')
     post.comments.forEach(comment => appShowComments(comment, comments))
   }
-
 
   document.querySelector('.detail').appendChild(thread)
 
