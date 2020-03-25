@@ -210,6 +210,8 @@ function appShowComments(comment, elm) {
 
   if(!comment.consensus && comment.votes && comment.votes.length > 1)
     appCommentBox(commentType, comment.id, comElm)
+  else if(comment.consensus && comment.votes && comment.votes.length > 1)
+    comElm.querySelector('p').classList.add('rainbow')
   appShowVotes(commentType, comment.id, comment.votes, comElm)
 
   if(comment.comments) {

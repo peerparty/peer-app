@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans&display=swap');
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: 'PT Sans', sans-serif;
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -246,6 +248,12 @@ input[type=submit] {
 
 @keyframes fadeinout3 {
   from { opacity: 0; } 25% { opacity: 0; } 50% { opacity: 0; } 75% { opacity: 1; } to { opacity: 0; }
+}
+
+.rainbow {
+  background: linear-gradient(to right, red, orange , yellow, green, cyan, blue, violet);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @media all and (max-width:640px) {
