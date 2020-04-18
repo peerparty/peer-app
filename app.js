@@ -1,5 +1,5 @@
-//let url = location.protocol + "//" + location.host + "/api";
-let url = "https://api.peerparty.org"
+let url = location.protocol + "//" + location.host + "/api";
+//let url = "https://api.peerparty.org"
 
 function doRequest(opts) {
   return new Promise(function (resolve, reject) {
@@ -281,6 +281,9 @@ function appShowPosts(posts) {
     item.setAttribute('data-id', post.id)
     item.querySelector('.title').innerHTML = post.title 
     item.querySelector('.description').innerHTML = post.description 
+    item.querySelector('.counts .votes').innerHTML = post.votes ? post.votes.length : 0
+    item.querySelector('.counts .comments').innerHTML = post.comments ? post.comments.length : 0
+    item.querySelector('.counts .moments').innerHTML = post.moments ? post.moments.length : 0
     document.querySelector('.items').appendChild(item)
   }
 
