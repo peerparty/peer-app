@@ -86,6 +86,7 @@ function appPostVote(postId, up) {
   }).then(() => {
     appGetPost(postId)
     appUpdateHeader()
+    appGetPosts()
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
@@ -98,6 +99,7 @@ function appCommentVote(commentId, up) {
   }).then(() => {
     appGetPost(postId)
     appUpdateHeader()
+    appGetPosts()
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
@@ -110,6 +112,7 @@ function appPostComment(postId, val) {
   }).then(() => {
     appGetPost(postId)
     appUpdateHeader()
+    appGetPosts()
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
@@ -122,6 +125,7 @@ function appCommentComment(commentId, val) {
   }).then(() => {
     appGetPost(postId)
     appUpdateHeader()
+    appGetPosts()
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
@@ -209,14 +213,14 @@ function appShowComments(comment, elm) {
   comElm.querySelector('p').innerHTML = comment.comment 
 
   console.log(comment.comment, "CONSENSUS", comment.consensus)
-  if(!comment.consensus && comment.votes && comment.votes.length > 1)
-    appCommentBox(commentType, comment.id, comElm)
-  else if(comment.consensus && comment.votes && comment.votes.length > 1)
+  //if(!comment.consensus && comment.votes && comment.votes.length > 1)
+  appCommentBox(commentType, comment.id, comElm)
+  if(comment.consensus && comment.votes && comment.votes.length > 1)
     comElm.querySelector('p').classList.add('rainbow')
   appShowVotes(commentType, comment.id, comment.votes, comElm)
 
   if(comment.comments) {
-    let commentsElm = document.querySelector('.templates .comments').cloneNode(true)
+    let commentsElm = document.querySelector('.templates > .comments').cloneNode(true)
     comment.comments.forEach(c => appShowComments(c, commentsElm))
     comElm.appendChild(commentsElm)
   }
@@ -255,11 +259,11 @@ function appShowThread(post) {
 
   if(post.moments.length) appShowConsensus(post.moments, thread)
 
-  if(!post.consensus && post.votes && post.votes.length > 1)
-    appCommentBox(postType, post.id, thread)
+  //if(!post.consensus && post.votes && post.votes.length > 1)
+  appCommentBox(postType, post.id, thread)
   appShowVotes(postType, post.id, post.votes, thread)
 
-  let comments = document.querySelector('.templates .comments').cloneNode(true)
+  let comments = document.querySelector('.templates > .comments').cloneNode(true)
   thread.appendChild(comments)
 
   if(post.comments) {
@@ -281,9 +285,9 @@ function appShowPosts(posts) {
     item.setAttribute('data-id', post.id)
     item.querySelector('.title').innerHTML = post.title 
     item.querySelector('.description').innerHTML = post.description 
-    item.querySelector('.counts .votes').innerHTML = post.votes ? post.votes.length : 0
-    item.querySelector('.counts .comments').innerHTML = post.comments ? post.comments.length : 0
-    item.querySelector('.counts .moments').innerHTML = post.moments ? post.moments.length : 0
+    item.querySelector('.counts .votes .value').innerHTML = post.votesCount
+    item.querySelector('.counts .comments .value').innerHTML = post.commentsCount
+    item.querySelector('.counts .moments .value').innerHTML = post.moments ? post.moments.length : 0
     document.querySelector('.items').appendChild(item)
   }
 
