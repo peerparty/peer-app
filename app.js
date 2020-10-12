@@ -1,6 +1,21 @@
 let url = location.protocol + "//" + location.host + "/api";
 //let url = "https://api.peerparty.org"
 
+function playAudio(filename) {
+  const audio = new Audio(filename)
+  audio.play()
+}
+
+function cleanup() {
+  document.querySelector('body').classList.remove('ubermate')
+}
+
+function ubermate() {
+  playAudio('fg.mpeg')
+  document.querySelector('body').classList.add('ubermate')
+  setTimeout(cleanup, 1500)
+}
+
 function doRequest(opts) {
   return new Promise(function (resolve, reject) {
     let xhr = new XMLHttpRequest()
@@ -178,6 +193,7 @@ function appCommentBox(objType, id, elm) {
   commentboxElm.querySelector('.arrow.right').addEventListener('click', e => {
     const val = commentboxElm.querySelector('textarea').value
     objType === postType ? appPostComment(id, val) : appCommentComment(id, val)
+    ubermate()
   })
   elm.appendChild(commentboxElm) 
 }
@@ -195,11 +211,13 @@ function appShowVotes(objType, id, votes, elm) {
 
   voteElm.querySelector('.up .arrow')
     .addEventListener('click', () => {
+      ubermate()
       if(objType === postType) appPostVote(id, true)
       else appCommentVote(id, true)
   }, false);
   voteElm.querySelector('.down .arrow')
     .addEventListener('click', () => {
+      ubermate()
       if(objType === postType) appPostVote(id, false)
       else appCommentVote(id, false) 
   }, false)
@@ -327,6 +345,8 @@ function appShowLogin() {
     .addEventListener('submit', e => {
       e.preventDefault()
       e.stopPropagation()
+      playAudio('bg.mpeg')
+      ubermate()
       appLogin({
         "name": document.querySelector('.detail input[name=username]').value,
         "pwd": document.querySelector('.detail input[name=password]').value

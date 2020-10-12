@@ -265,6 +265,30 @@ input[type=submit] {
   -webkit-text-fill-color: transparent;
 }
 
+@keyframes uber {
+  0% { background: #ff69b4; }
+  25% { background: #ffff00; }
+  50% { background: #ff69b4; }
+  75% { background: #fff000; }
+  100% { background: #ff69b4; }
+}
+
+.ubermate {
+  animation-name: uber;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-iteration-count: 3;
+  animation-direction: normal;
+  animation-play-state: running;
+
+  -webkit-animation-name: uber;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: ease;
+  -webkit-animation-iteration-count: 3;
+  -webkit-animation-direction: normal;
+  -webkit-animation-play-state: running;
+}
+
 @media all and (max-width:640px) {
 
 html, body, .content, .cols {
