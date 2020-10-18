@@ -35,13 +35,6 @@ function ubermate(node) {
 }
 
 window.addEventListener('DOMContentLoaded', e => {
-  
-  document.querySelector('*').addEventListener('click', e => {
-    playAudio()
-    ubermate(e.target)
-  })
-
-
   document.querySelectorAll('.logo').forEach(logo => {
     wrapChars(logo)
     wrapAni(logo)
