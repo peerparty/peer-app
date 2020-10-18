@@ -18,9 +18,14 @@ p {
   margin-bottom: 5px;
 }
 
-.header span, .item span, textarea {
+.header span, .item span, .thread span, textarea {
   font-size: 21px;
 }
+
+.thread .agree {
+  font-size: 13px;
+}
+
 
 h2, h3 {
   margin: 21px 0;
@@ -209,6 +214,10 @@ input[type=submit] {
 }
 
 .vote {
+  margin-bottom: 21px;
+}
+
+.commentbox {
   /* text-align: right; */
   border-bottom: 8px solid #000;
 }

@@ -232,10 +232,12 @@ function appShowComments(comment, elm) {
 
   console.log(comment.comment, "CONSENSUS", comment.consensus)
   //if(!comment.consensus && comment.votes && comment.votes.length > 1)
+
+  appShowVotes(commentType, comment.id, comment.votes, comElm)
+
   appCommentBox(commentType, comment.id, comElm)
   if(comment.consensus && comment.votes && comment.votes.length > 1)
     comElm.querySelector('p').classList.add('rainbow')
-  appShowVotes(commentType, comment.id, comment.votes, comElm)
 
   if(comment.comments) {
     let commentsElm = document.querySelector('.templates > .comments').cloneNode(true)
@@ -275,11 +277,12 @@ function appShowThread(post) {
   thread.querySelector('.title').innerHTML = post.title
   thread.querySelector('.description').innerHTML = post.description
 
+  appShowVotes(postType, post.id, post.votes, thread)
+
   if(post.moments.length) appShowConsensus(post.moments, thread)
 
   //if(!post.consensus && post.votes && post.votes.length > 1)
   appCommentBox(postType, post.id, thread)
-  appShowVotes(postType, post.id, post.votes, thread)
 
   let comments = document.querySelector('.templates > .comments').cloneNode(true)
   thread.appendChild(comments)
@@ -290,6 +293,12 @@ function appShowThread(post) {
   }
 
   document.querySelector('.detail').appendChild(thread)
+
+  /*
+  document.querySelector('.detail').scrollIntoView({
+    behavior: 'smooth'
+  })
+  */
 
 }
 
