@@ -299,7 +299,6 @@ input[type=submit] {
 @media all and (max-width:640px) {
 
 html, body, .content, .cols {
-  height: auto;
   overflow-y: scroll;
 }
 

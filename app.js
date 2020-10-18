@@ -172,6 +172,25 @@ function appLogout() {
  * UI stuff - JBG
  */
 
+function appScrollDetail() {
+  // Mobile Hack - JBG
+  if(window.innerWidth <= 640) {
+    document.querySelector('.detail').scrollIntoView({
+      behavior: 'smooth'
+    })
+  }
+}
+
+function appScrollItems() {
+  // Mobile Hack - JBG
+  if(window.innerWidth <= 640) {
+    document.querySelector('.items').scrollIntoView({
+      behavior: 'smooth'
+    })
+  }
+}
+
+
 function appShowNotice(notice) {
   document.querySelector('.detail').innerHTML = ''
   appShowClose()
@@ -294,12 +313,7 @@ function appShowThread(post) {
 
   document.querySelector('.detail').appendChild(thread)
 
-  /*
-  document.querySelector('.detail').scrollIntoView({
-    behavior: 'smooth'
-  })
-  */
-
+  appScrollDetail()
 }
 
 function appShowPosts(posts) {
@@ -341,6 +355,8 @@ function appShowMenu() {
   */
   document.querySelector('.detail .menu .menu-logout')
     .addEventListener('click', appLogout, false)
+
+  appScrollItems()
 }
 
 function appShowLogin() {
@@ -361,6 +377,8 @@ function appShowLogin() {
         "pwd": document.querySelector('.detail input[name=password]').value
       })
     }, false)
+
+    appScrollDetail()
 }
 
 function appShow() {
