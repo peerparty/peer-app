@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=PT+Sans&display=swap');
-
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'CMRDD', sans-serif;
   overflow-x: hidden;
   overflow-y: hidden;
 }
@@ -20,7 +18,7 @@ p {
   margin-bottom: 5px;
 }
 
-span, textarea {
+.header span, .item span, textarea {
   font-size: 21px;
 }
 

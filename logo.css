@@ -1,0 +1,117 @@
+@font-face {
+  font-family: CMRDD;
+  src: url(CMRDD-Regular.woff);
+}
+
+@font-face {
+  font-family: CMRDDExtraBold;
+  src: url(CMRDD-ExtraBold.woff);
+}
+
+@font-face {
+  font-family: CMRDDItalic;
+  src: url(CMRDD-Italic.woff);
+}
+
+@font-face {
+  font-family: CMRDDBold;
+  src: url(CMRDD-Bold.woff);
+}
+
+.logo0 {
+ font-family: CMRDD, sans-sarif;
+ display: inline-block;
+ /*transform: scale(1) rotate(0deg) translate(0px, 0px) skew(2deg, 0deg);*/
+ text-shadow: 0px 0px 1px black;
+ -webkit-text-stroke: 5px black;
+ letter-spacing: 0.1em;
+}
+
+.white .logo0 {
+ text-shadow: 0px 0px 1px white;
+ -webkit-text-stroke: 5px white;
+}
+
+.logo1 {
+ font-family: CMRDDBold, sans-sarif;
+ -webkit-text-stroke: 6px black;
+ letter-spacing: 0.2rem;
+}
+
+.white .logo1 {
+ -webkit-text-stroke: 6px white;
+}
+
+.logo2 {
+ font-family: CMRDD, sans-sarif;
+ -webkit-text-stroke: 1px black;
+ letter-spacing: 0.2rem;
+}
+
+.white .logo2 {
+ -webkit-text-stroke: 6px white;
+}
+
+.logo3 {
+ font-family: CMRDDItalic, sans-sarif;
+ -webkit-text-stroke: .5px black;
+ letter-spacing: 0.2rem;
+}
+
+.white .logo3 {
+ -webkit-text-stroke: .5px white;
+}
+
+.logo4 {
+ font-family: CMRDD, sans-sarif;
+ -webkit-text-stroke: .5px black;
+ letter-spacing: 0.0rem;
+}
+
+.white .logo4 {
+ -webkit-text-stroke: .5px white;
+}
+
+.logo5 {
+ font-family: CMRDDItalic, sans-sarif;
+ -webkit-text-stroke: -.25px black;
+ letter-spacing: 0.4rem;
+}
+
+.white .logo5 {
+ -webkit-text-stroke: -.25px white;
+}
+
+@keyframes right {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(60%);
+  }
+}
+
+@keyframes left {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-60%);
+  }
+}
+
+
+.logo:hover .win1 {
+  display: inline-block;
+  animation-duration: 3s;
+  animation-name: right;
+  animation-iteration-count: infinite;
+}
+
+.logo:hover .win2 {
+  display: inline-block;
+  animation-duration: 3s;
+  animation-name: left;
+  animation-iteration-count: infinite;
+}
+
