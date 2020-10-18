@@ -407,8 +407,10 @@ function appShowError(title, desc) {
   document.querySelector('.content .cols').classList.add('hidden')
   const err = document.querySelector('.error')
   err.classList.remove('hidden')
-  err.querySelector('h2').innerHTML = title
-  err.querySelector('p').innerHTML = desc 
+  err.querySelector('h2.title').innerHTML = title
+  err.querySelector('p.desc').innerHTML = desc 
+
+  appLogout()
 }
 
 document.addEventListener('DOMContentLoaded', event => { 
