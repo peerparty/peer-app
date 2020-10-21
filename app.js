@@ -87,8 +87,9 @@ function appGetPost(postId) {
 
 function appGetPosts() {
   doRequest({ 'endpoint': '/posts' })
-  .then((posts) => {
-    appShowPosts(JSON.parse(posts));
+  .then((postsStr) => {
+    const posts = JSON.parse(postsStr)
+    appShowPosts(posts.sort((a, b) => parseInt(b.date) - parseInt(a.date)))
   }).catch(e => appShowError(e.status, e.statusText))
 }
 
