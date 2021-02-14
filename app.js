@@ -337,7 +337,7 @@ function appShowPosts(posts) {
   for(let i = 0; i < items.length; i++) {
     items[i].addEventListener('click', (e) => {
       const t = e.target.className != 'item' ? e.target.parentNode : e.target
-      postId = t.getAttribute('data-id')
+      postId = e.currentTarget.getAttribute('data-id')
       appGetPost(postId)
     }, true)
   }
