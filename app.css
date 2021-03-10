@@ -122,7 +122,7 @@ textarea {
   */
   /* text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue; */
   /*box-shadow: 0 0 99px 11px #ffe200, 1px 1px 2px #a35aff;*/
-  box-shadow: 0 0 21px #ffe200, 0 0 99px #a35aff;
+  box-shadow: 0 0 99px #2f00ed;
 }
 
 .title {
