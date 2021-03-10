@@ -10,13 +10,14 @@
 </head>
 <body>
   <div class="header hidden">
-    <span class='header-blk header-bal'>
-      <span class='header-lbl'>Balance: </span>
-      <span class='header-val'>_</span> 
+    <span class="header-blk header-bal tooltip">
+      <span class="header-lbl">Balance: </span>
+      <span class="header-val">_</span> 
+      <!-- <span class="tooltxt tooltip-left">WINWIN is built on a blockchain and each transaction, voting and comments are transactions, requires currency. This helps prevent trolling, bots, manipulation, and button bashing.</span>-->
     </span>
-    <span class='header-blk header-user'>
-      <span class='header-lbl'>User: </span>
-      <span class='header-val'>_</span> 
+    <span class="header-blk header-user">
+      <span class="header-lbl">User: </span>
+      <span class="header-val">_</span> 
     </span>
     <div style="clear:both"></div>
   </div>
@@ -67,14 +68,14 @@
     </div>
     <ul class="comments"></ul>
     <div class="vote">
-      <span class="agree">Agree? &rarr; </span>
-      <span class="up"><span class="count">0</span> <span class="arrow">⬆️</span></span> /
-      <span class="down"><span class="count">0</span> <span class="arrow">⬇️</span></span>
+      <!-- <span class="agree">Agree? &rarr; </span> -->
+      <span class="up button"><span class="arrow">Agree:</span> <span class="count">0</span></span>
+      <span class="down button"><span class="arrow">Disagree:</span> <span class="count">0</span></span>
     </div>
     <li class="comment"><p></p></li>
     <div class="commentbox">
       <textarea placeholder="Comment..."></textarea>
-      <div class="cf"><span class="arrow right submit">➡️</span></div>
+      <div class="cf"><span class="arrow right submit button">Submit</span></div>
     </div>
     <h1 class="close">X</h1>
     <div class="notice">

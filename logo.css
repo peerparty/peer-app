@@ -22,8 +22,8 @@
  font-family: CMRDD, sans-sarif;
  display: inline-block;
  /*transform: scale(1) rotate(0deg) translate(0px, 0px) skew(2deg, 0deg);*/
- text-shadow: 0px 0px 1px black;
- -webkit-text-stroke: 5px black;
+ text-shadow: 0px 0px 1px white;
+ -webkit-text-stroke: 5px white;
  letter-spacing: 0.1em;
 }
 
@@ -34,7 +34,7 @@
 
 .logo1 {
  font-family: CMRDDBold, sans-sarif;
- -webkit-text-stroke: 6px black;
+ -webkit-text-stroke: 6px white;
  letter-spacing: 0.2rem;
 }
 
@@ -44,7 +44,7 @@
 
 .logo2 {
  font-family: CMRDD, sans-sarif;
- -webkit-text-stroke: 1px black;
+ -webkit-text-stroke: 1px white;
  letter-spacing: 0.2rem;
 }
 
@@ -54,7 +54,7 @@
 
 .logo3 {
  font-family: CMRDDItalic, sans-sarif;
- -webkit-text-stroke: .5px black;
+ -webkit-text-stroke: .5px white;
  letter-spacing: 0.2rem;
 }
 
@@ -64,7 +64,7 @@
 
 .logo4 {
  font-family: CMRDD, sans-sarif;
- -webkit-text-stroke: .5px black;
+ -webkit-text-stroke: .5px white;
  letter-spacing: 0.0rem;
 }
 
@@ -74,7 +74,7 @@
 
 .logo5 {
  font-family: CMRDDItalic, sans-sarif;
- -webkit-text-stroke: -.25px black;
+ -webkit-text-stroke: -.25px white;
  letter-spacing: 0.4rem;
 }
 
